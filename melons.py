@@ -19,7 +19,14 @@ class AbstractMelonOrder:
         base_price = 5
         total = (1 + self.tax) * self.qty * base_price
 
-        return total
+        if self.species == "Christmas Melon":
+            base_price = base_price*1.5
+            total = (1 + self.tax) * self.qty * base_price
+
+        elif self.order_type == "international" and self.qty < 10:
+            total = total + 3
+
+        return round(total, 2)
 
     def mark_shipped(self):
         """Record the fact than an order has been shipped."""
@@ -43,15 +50,8 @@ class InternationalMelonOrder(AbstractMelonOrder):
         super().__init__(species, qty, 'international', 0.17)
         self.country_code = country_code
 
-        #self.species = species
-        #self.qty = qty
-        #self.country_code = country_code
-        #self.shipped = False
-        #self.order_type = "international"
-        #self.tax = 0.17
     def get_country_code(self):
         """Return the country code."""
-        #self.country_code()
     
         return self.country_code
 
